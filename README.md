@@ -45,6 +45,14 @@ data = report.to_dict()
 - `report.total_ms` — Total import time
 - `report.to_dict()` — Export as list of dicts
 
+
+## Development
+
+```bash
+pip install -e .
+python -m pytest tests/ -v
+```
+
 ## License
 
 MIT
