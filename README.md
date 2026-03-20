@@ -39,11 +39,13 @@ data = report.to_dict()
 
 ## API
 
-- `profile_imports(module_name)` — Profile all imports, returns `ImportReport`
-- `report.slowest(n)` — Top N slowest imports
-- `report.print_tree(threshold_ms=0)` — Print indented tree
-- `report.total_ms` — Total import time
-- `report.to_dict()` — Export as list of dicts
+| Function / Class | Description |
+|---|---|
+| `profile_imports(module_name)` | Profile all imports, returns `ImportReport` |
+| `report.slowest(n)` | Top N slowest imports |
+| `report.print_tree(threshold_ms=0)` | Print indented tree |
+| `report.total_ms` | Total import time |
+| `report.to_dict()` | Export as list of dicts |
 
 
 ## Development
