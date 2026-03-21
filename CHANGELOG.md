@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7
+
+- Document ImportEntry.self_ms property and module_count in API table
+- Add self time and export usage example to README
+- Convert API section to table format
+
 ## 0.1.4
 
 - Add Development section to README

@@ -14,6 +14,8 @@ pip install philiprehberger-import-profiler
 
 ## Usage
 
+### Basic Profiling
+
 ```python
 from philiprehberger_import_profiler import profile_imports
 
@@ -32,18 +34,35 @@ report.print_tree(threshold_ms=5.0)
 
 # Summary
 print(f"Total: {report.total_ms:.1f}ms, Modules: {report.module_count}")
+```
 
-# Export
+### Self Time and Export
+
+```python
+report = profile_imports("my_package")
+
+# Self time excludes children's duration
+for entry in report.slowest(5):
+    print(f"{entry.name}: total={entry.duration_ms:.1f}ms self={entry.self_ms:.1f}ms")
+
+# Export as list of dicts
 data = report.to_dict()
+# [{"name": "requests", "duration_ms": 45.2, "self_ms": 23.1, "parent": "my_package"}, ...]
 ```
 
 ## API
 
-- `profile_imports(module_name)` — Profile all imports, returns `ImportReport`
-- `report.slowest(n)` — Top N slowest imports
-- `report.print_tree(threshold_ms=0)` — Print indented tree
-- `report.total_ms` — Total import time
-- `report.to_dict()` — Export as list of dicts
+| Function / Class | Description |
+|---|---|
+| `profile_imports(module_name)` | Profile all imports, returns `ImportReport` |
+| `report.slowest(n)` | Top N slowest imports as `ImportEntry` list |
+| `report.print_tree(threshold_ms=0)` | Print indented tree |
+| `report.total_ms` | Total import time in milliseconds |
+| `report.module_count` | Number of modules imported |
+| `report.to_dict()` | Export as list of dicts |
+| `ImportEntry.name` | Module name |
+| `ImportEntry.duration_ms` | Total duration including children |
+| `ImportEntry.self_ms` | Duration excluding children |
 
 
 ## Development
