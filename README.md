@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/py-import-profiler/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/py-import-profiler/actions/workflows/publish.yml)
 [![PyPI version](https://img.shields.io/pypi/v/philiprehberger-import-profiler.svg)](https://pypi.org/project/philiprehberger-import-profiler/)
 [![License](https://img.shields.io/github/license/philiprehberger/py-import-profiler)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Show how long each Python import takes during startup.
 
