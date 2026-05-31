@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "philiprehberger-import-profiler"
-version = "0.1.9"
+version = "0.2.0"
 description = "Show how long each Python import takes during startup"
 readme = "README.md"
 license = "MIT"

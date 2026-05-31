@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 (2026-05-30)
+
+- Add `ImportReport.slowest(n)` returning the N slowest entries
+- Add `ImportReport.filter(prefix)` returning a new report containing only entries matching a module prefix
+
 ## 0.1.9 (2026-03-31)
 
 - Standardize README to 3-badge format with emoji Support section

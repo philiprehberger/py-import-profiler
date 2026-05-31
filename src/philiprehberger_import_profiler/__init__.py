@@ -57,6 +57,21 @@ class ImportReport:
         """
         return sorted(self.entries, key=lambda e: e.duration_ms, reverse=True)[:n]
 
+    def filter(self, prefix: str) -> ImportReport:
+        """Return a new ImportReport containing only entries whose name starts with *prefix*.
+
+        Args:
+            prefix: Module name prefix to match.
+
+        Returns:
+            New ImportReport with the filtered entries. The original report is not mutated.
+        """
+        filtered = [e for e in self.entries if e.name.startswith(prefix)]
+        return ImportReport(
+            entries=filtered,
+            _by_name={e.name: e for e in filtered},
+        )
+
     def print_tree(self, *, threshold_ms: float = 0.0) -> None:
         """Print an indented tree of import times.
 

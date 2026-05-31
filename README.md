@@ -50,12 +50,30 @@ data = report.to_dict()
 # [{"name": "requests", "duration_ms": 45.2, "self_ms": 23.1, "parent": "my_package"}, ...]
 ```
 
+### Sorting and filtering reports
+
+```python
+report = profile_imports("my_package")
+
+# Top N slowest entries (descending by duration_ms)
+for entry in report.slowest(3):
+    print(f"{entry.name}: {entry.duration_ms:.1f}ms")
+
+# Filter to entries whose module name starts with a prefix
+numpy_only = report.filter("numpy")
+print(f"numpy.* modules: {numpy_only.module_count}, total={numpy_only.total_ms:.1f}ms")
+
+# filter returns a new report; the original is unchanged
+assert report.module_count >= numpy_only.module_count
+```
+
 ## API
 
 | Function / Class | Description |
 |---|---|
 | `profile_imports(module_name)` | Profile all imports, returns `ImportReport` |
-| `report.slowest(n)` | Top N slowest imports as `ImportEntry` list |
+| `report.slowest(n=10)` | Top N slowest imports as `ImportEntry` list, sorted descending |
+| `report.filter(prefix)` | New `ImportReport` containing only entries whose name starts with `prefix` |
 | `report.print_tree(threshold_ms=0)` | Print indented tree |
 | `report.total_ms` | Total import time in milliseconds |
 | `report.module_count` | Number of modules imported |
