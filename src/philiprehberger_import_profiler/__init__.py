@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import builtins
+import json
 import time
 from dataclasses import dataclass, field
 from typing import Any
@@ -93,6 +94,39 @@ class ImportReport:
             }
             for e in self.entries
         ]
+
+    def to_json(self, indent: int | None = 2) -> str:
+        """Return the entries as a JSON-formatted string.
+
+        Args:
+            indent: Indentation level forwarded to :func:`json.dumps`. Pass
+                ``None`` for compact output.
+
+        Returns:
+            JSON-formatted string of the same data returned by :meth:`to_dict`.
+        """
+        return json.dumps(self.to_dict(), indent=indent)
+
+    def summary(self, slowest: int = 5) -> dict[str, Any]:
+        """Return a compact summary of the report.
+
+        Includes total import time, total module count, and the top *slowest*
+        imports (name + duration_ms only). Suitable for logging or CLI output.
+
+        Args:
+            slowest: Number of slowest entries to include.
+
+        Returns:
+            Dict with ``total_ms``, ``module_count``, and ``slowest``.
+        """
+        return {
+            "total_ms": round(self.total_ms, 2),
+            "module_count": self.module_count,
+            "slowest": [
+                {"name": e.name, "duration_ms": round(e.duration_ms, 2)}
+                for e in self.slowest(slowest)
+            ],
+        }
 
 
 def profile_imports(module_name: str) -> ImportReport:

@@ -4,6 +4,8 @@
 [![PyPI version](https://img.shields.io/pypi/v/philiprehberger-import-profiler.svg)](https://pypi.org/project/philiprehberger-import-profiler/)
 [![Last updated](https://img.shields.io/github/last-commit/philiprehberger/py-import-profiler)](https://github.com/philiprehberger/py-import-profiler/commits/main)
 
+![philiprehberger-import-profiler](https://raw.githubusercontent.com/philiprehberger/py-import-profiler/main/package-card.webp)
+
 Show how long each Python import takes during startup.
 
 ## Installation
@@ -50,6 +52,24 @@ data = report.to_dict()
 # [{"name": "requests", "duration_ms": 45.2, "self_ms": 23.1, "parent": "my_package"}, ...]
 ```
 
+### Summary and JSON export
+
+Use `summary()` for a compact dict you can log or pretty-print, and `to_json()` for the full entry list as a JSON string.
+
+```python
+report = profile_imports("my_package")
+
+print(report.summary(slowest=3))
+# {"total_ms": 124.5, "module_count": 42, "slowest": [
+#     {"name": "numpy", "duration_ms": 62.0},
+#     {"name": "requests", "duration_ms": 45.2},
+#     {"name": "urllib3", "duration_ms": 22.1},
+# ]}
+
+# JSON string (compact when indent=None)
+print(report.to_json(indent=None))
+```
+
 ### Sorting and filtering reports
 
 ```python
@@ -78,6 +98,8 @@ assert report.module_count >= numpy_only.module_count
 | `report.total_ms` | Total import time in milliseconds |
 | `report.module_count` | Number of modules imported |
 | `report.to_dict()` | Export as list of dicts |
+| `report.to_json(indent=2)` | Export entries as a JSON-formatted string |
+| `report.summary(slowest=5)` | Compact dict with `total_ms`, `module_count`, and top-N slowest |
 | `ImportEntry.name` | Module name |
 | `ImportEntry.duration_ms` | Total duration including children |
 | `ImportEntry.self_ms` | Duration excluding children |

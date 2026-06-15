@@ -1,3 +1,5 @@
+import json
+
 from philiprehberger_import_profiler import profile_imports, ImportReport, ImportEntry
 
 
@@ -108,3 +110,37 @@ def test_filter_does_not_mutate_original():
     _ = report.filter("os")
     assert [e.name for e in report.entries] == original_names
     assert len(report.entries) == 2
+
+
+def test_to_json_round_trips_through_loads():
+    entries = [
+        ImportEntry(name="os", duration_ms=12.0, parent=""),
+        ImportEntry(name="json", duration_ms=20.0, parent=""),
+    ]
+    report = _make_report(entries)
+    payload = json.loads(report.to_json())
+    assert isinstance(payload, list)
+    assert payload[0]["name"] == "os"
+    assert payload[0]["duration_ms"] == 12.0
+
+
+def test_to_json_compact_when_indent_none():
+    entries = [ImportEntry(name="os", duration_ms=12.0)]
+    report = _make_report(entries)
+    compact = report.to_json(indent=None)
+    assert "\n" not in compact
+
+
+def test_summary_basic_fields():
+    entries = [
+        ImportEntry(name="a", duration_ms=50.0),
+        ImportEntry(name="b", duration_ms=200.0),
+        ImportEntry(name="c", duration_ms=10.0),
+    ]
+    report = _make_report(entries)
+    summary = report.summary(slowest=2)
+    assert summary["module_count"] == 3
+    assert summary["total_ms"] == 260.0
+    assert len(summary["slowest"]) == 2
+    assert summary["slowest"][0]["name"] == "b"
+    assert summary["slowest"][0]["duration_ms"] == 200.0

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (2026-06-15)
+
+- Add `ImportReport.summary(slowest=5)` returning a compact dict with `total_ms`, `module_count`, and the top slowest entries
+- Add `ImportReport.to_json(indent=2)` returning the entries as a JSON-formatted string
+- Sync `pyproject.toml` description to end with a period (matches README one-liner)
+- Add package-card image to README
+
 ## 0.2.0 (2026-05-30)
 
 - Add `ImportReport.slowest(n)` returning the N slowest entries
